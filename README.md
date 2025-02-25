@@ -38,13 +38,35 @@ All tasks are implemented in a **Jupyter Notebook (`tasks.ipynb`)**, with explan
 
 ## **Installation** 
 
+**Prerequisites**
+Ensure the following software is installed:
+
+Python 3.x
+Jupyter Notebook
+
+1. **Clone the repository:**  
+    git clone https://github.com/Cpgeragh/computational_theory_assessment.git
+
+2. **Navigate to the project directory:**
+    cd computational_theory_assessment
+ 
+---
+
+## **Deployment**
+
+This project is executed entirely in a Jupyter Notebook.  
+
+**Running the Notebook**
+
+1. **Run all cells in order using Shift + Enter.**
+
+2. **Alternatively execute the notebook via terminal:**
+    jupyter nbconvert --to notebook --execute tasks.ipynb
+
+3. **Each task produces direct output in the notebook.**
+
 ---
 
 ### **Prerequisites**  
 
 ---
-
-### **Setup Instructions** 
-
----
-   
