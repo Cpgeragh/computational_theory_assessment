@@ -51,7 +51,7 @@ This project implements a hashing function originally written in C, rewritten in
 
 This type of hashing is used in string-based hashing algorithms for fast searching and indexing.
 
-### **SHA256 and Cryptographic Hashing**  
+### **SHA256 Padding**  
 SHA256 is a widely used cryptographic hash function that converts input data into a 256-bit hash value, designed for secure hashing in encryption and authentication:
 - Used in digital signatures, secure password hashing, and blockchain technology.  
 - **One-way function** – It is computationally infeasible to reverse the hash back to the original message.  
@@ -74,6 +74,27 @@ This comparison allows for analyzing performance trade-offs in number theory and
 ---
 
 ## **Features**  
+This project includes the following completed tasks:  
+
+### **Binary Representations**  
+- Implements bitwise operations for 32-bit unsigned integers.  
+- Includes bit rotation, bitwise selection (`ch`), and majority voting (`maj`).  
+- Used in cryptographic algorithms for secure hashing.  
+
+### **Hash Functions**  
+- Converts a C-based hash function into Python.  
+- Uses multiplication & modular arithmetic for hashing.  
+- Explores why 31 and 101 are chosen for efficiency.  
+
+### **SHA256 Padding**  
+- Implements SHA256 message padding according to FIPS 180-4.  
+- Appends a 1-bit (`0x80`), zero padding, and message length.  
+- Required for secure hashing and cryptographic security.  
+
+### **Prime Number Computation**  
+- Computes the first 1,000 prime numbers.  
+- Uses Trial Division and Sieve of Atkin for comparison.  
+- Essential for cryptographic key generation and secure communications.  
 
 ---
 
@@ -108,6 +129,18 @@ This project is executed entirely in a Jupyter Notebook.
 
 ---
 
-### **Prerequisites**  
+## **Expected Outputs and Demonstration**
+
+---
+
+## **Development Difficulties**
+
+---
+
+## **Testing**
+
+---
+
+## **Bibliography**
 
 ---
