@@ -13,4 +13,38 @@
 6. [Expected Outputs and Demonstration](#expected-outputs-and-demonstration)  
 7. [Development Difficulties](#development-difficulties)  
 8. [Testing](#testing)  
-9. [Bibliography](#bibliography)
+9. [Bibliography](#bibliography)  
+
+---
+
+## **Project Overview**  
+This project explores various **computational theory concepts**, including:  
+- **Bitwise operations** for efficient data processing.  
+- **Hash functions** for data integrity and security.  
+- **SHA256 padding** as per cryptographic standards.  
+- **Prime number calculations** used in encryption.  
+
+All tasks are implemented in a **Jupyter Notebook (`tasks.ipynb`)**, with explanations and test cases for verification.
+
+---
+
+## **History**  
+
+---
+
+## **Features**  
+
+---
+
+## **Installation** 
+
+---
+
+### **Prerequisites**  
+
+---
+
+### **Setup Instructions** 
+
+---
+   
