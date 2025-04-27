@@ -4,6 +4,8 @@ This document presents the completed work for the Computational Theory module (J
 
 ---
 
+---
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)  
