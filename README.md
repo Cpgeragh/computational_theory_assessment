@@ -1,5 +1,8 @@
 # Computational Theory Assessment
 
+[![Python 3.10](https://img.shields.io/badge/python-3.10+-blue)]()
+[![Notebook Validation](https://img.shields.io/badge/nbval-passing-brightgreen)]()
+
 This document presents the completed work for the Computational Theory module (January–May 2025). The project is structured around eight tasks, each exploring a foundational concept of computation. All work is presented in a Jupyter Notebook and is guided by the requirements set out in the official assessment instructions. Each task is implemented using Python, with detailed Markdown explanations, validation tests, and adherence to the FIPS 180-4 Secure Hash Standard where applicable.
 
 ---
@@ -87,10 +90,19 @@ Together, these ensure that the notebook serves not just as a working submission
 
 ## Environment & Installation
 
-This project requires **Python 3.10+** and uses the following packages:
+This project was developed and tested with:
 
-  - `pytest` – for unit testing
-  - `nbval` – to validate Jupyter Notebook outputs
+- Platform: win32
+- Python 3.12.2
+- Testing tools:
+  - pytest 8.3.5
+  - pluggy 1.5.0
+  - nbval 0.11.0
+
+First, clone the repository and switch into its folder:
+
+  - git clone https://github.com/Cpgeragh/computational_theory_assessment.git
+  - cd computational_theory_assessment
 
 To install the required packages:
 
@@ -99,7 +111,6 @@ To install the required packages:
 Or manually:
 
   - pip install pytest nbval
-
 
 ### Running the Notebook
 
@@ -154,6 +165,44 @@ Steps include:
 - Padding with zeros until the total message length is congruent to 448 modulo 512.
 - Adding the original message length as a 64-bit big-endian integer.
 
+```
+SHA-256 Padding Process for Input "abc":
+Original Message (24 bits = 3 bytes)
+┌─────────┬─────────┬─────────┐
+│    a    │    b    │    c    │
+│ 01100001│ 01100010│ 01100011│
+└─────────┴─────────┴─────────┘
+Step 1: Append '1' bit
+┌─────────┬─────────┬─────────┬─────────┐
+│    a    │    b    │    c    │10000000 │
+│ 01100001│ 01100010│ 01100011│10000000 │
+└─────────┴─────────┴─────────┴─────────┘
+▲
+'1' bit followed by
+7 '0' bits (0x80)
+Step 2: Pad with zeros until length ≡ 448 mod 512 (56 bytes)
+┌─────────┬─────────┬─────────┬─────────┬─────────────────────────────┐
+│    a    │    b    │    c    │ 0x80    │       52 bytes of 0x00      │
+│ 01100001│ 01100010│ 01100011│10000000 │00000000 00000000 ... 00000000│
+└─────────┴─────────┴─────────┴─────────┴─────────────────────────────┘
+Step 3: Append 64-bit length (big-endian) = 24 bits = 0x18
+┌─────────┬─────────┬─────────┬─────────┬─────────────────┬─────────────────┐
+│    a    │    b    │    c    │ 0x80    │  52 bytes of 0  │   0x00000018    │
+└─────────┴─────────┴─────────┴─────────┴─────────────────┴─────────────────┘
+▲
+64-bit length field
+(24 in hexadecimal)
+Final padded message (512 bits = 64 bytes):
+┌───────────────────────┬────────────────────────────────┬────────────────┐
+│ Original 3 bytes +    │                                │                │
+│ 1 byte terminator     │        52 bytes of zeros       │  8 byte length │
+└───────────────────────┴────────────────────────────────┴────────────────┘
+Hex view of padding only (excluding original "abc"):
+80 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 18
+```
+
 The result is a hexadecimal representation of the padding bytes. This task verifies conformance to official SHA-2 behavior and supports cryptographic integrity.
 
 ---
@@ -207,6 +256,56 @@ This task implements a simulated Turing Machine that performs binary incrementat
 - Applies rules to flip bits and carry logic.
 - Produces the incremented result on the same tape.
 
+```
+Binary Increment Turing Machine State Diagram:
+
+START STATE: Move to end of tape
+┌─────────┐
+│  START  │
+└────┬────┘
+     │ Move Right until end
+     ▼
+┌─────────┐
+│   END   │──┐
+└────┬────┘  │ Any: Move Left
+     │       │
+     │       │
+     ▼       │
+┌─────────┐  │
+│ PROCESS │◄─┘
+└────┬────┘
+     │
+     ├────────────┬─────────────┐
+     │            │             │
+     ▼            ▼             ▼
+┌─────────┐  ┌─────────┐   ┌─────────┐
+│ Read '0' │  │ Read '1' │   │ No more │
+└────┬────┘  └────┬────┘   └────┬────┘
+     │            │             │
+     │            │             │
+     ▼            ▼             ▼
+┌─────────┐  ┌─────────┐   ┌─────────┐
+│Write '1' │  │Write '0' │   │Prepend '1'│
+└────┬────┘  └────┬────┘   └────┬────┘
+     │            │             │
+     ▼            ▼             ▼
+┌─────────┐  ┌─────────┐   ┌─────────┐
+│  HALT   │  │Move Left│   │  HALT   │
+└─────────┘  └────┬────┘   └─────────┘
+                  │
+                  └─────────────────────►
+
+Example execution for input "100111":
+Tape:      1 0 0 1 1 1
+           ▲ Head starts here
+                      ▲ Moves to end
+                    ▲ Reads 1, writes 0, moves left
+                  ▲ Reads 1, writes 0, moves left
+                ▲ Reads 1, writes 0, moves left
+              ▲ Reads 0, writes 1, halts
+Output:    1 0 1 0 0 0
+```
+
 This task illustrates the principles of computation theory and models how state machines perform computation over symbolic tapes, reinforcing the concepts of halting, determinism, and state transitions.
 
 ---
@@ -231,8 +330,8 @@ Each task produces specific, verifiable outputs that demonstrate the success of 
 
 - **Task 2: Hash Functions**  
   Two outputs are produced:  
-  (1) Regular hash values for a set of test strings using a K&R-style polynomial hash function.  
-  (2) An expanded hash version prints step-by-step accumulation for each character, including ASCII values, intermediate products, and the final modulo result.
+    1. Regular hash values for a set of test strings using a K&R-style polynomial hash function.  
+    2. An expanded hash version prints step-by-step accumulation for each character, including ASCII values, intermediate products, and the final modulo result.
 
 - **Task 3: SHA256**  
   Padding is computed and printed in both binary and hexadecimal forms. Output includes:  
@@ -242,8 +341,15 @@ Each task produces specific, verifiable outputs that demonstrate the success of 
   - Full 64-byte message block  
   - Extracted padding segment displayed in hex (`80 ... 18`) for FIPS 180-4 compliance
 
-- **Task 4: Prime Numbers**  
-  Outputs include the first and last 50 primes from both trial division and the Sieve of Atkin (1000 total). Includes printouts for each algorithm and confirmation that results are identical. Tests confirm correct primality detection and elimination of composite values like 49 or 9.
+**Task 4: Prime Numbers**  
+  Outputs the first 100 primes using both Trial Division and Sieve of Atkin algorithms with performance comparison. Tests confirm correct primality detection and elimination of composite values like 49 or 9.
+
+  | Algorithm       | Execution Time (seconds) | Performance                  |
+  |:----------------|:------------------------:|:-----------------------------|
+  | Trial Division  | 0.000205                 | Faster for small inputs      |
+  | Sieve of Atkin  | 0.000255                 | 1.24x slower for 100 primes  |
+
+  Both algorithms produce identical outputs, validating their correctness while demonstrating that algorithmic complexity doesn't always predict performance for small datasets.
 
 - **Task 5: Roots**  
   Produces a list of 32-bit binary representations of the fractional part of square roots for the first 100 primes. Outputs include:  
@@ -254,19 +360,39 @@ Each task produces specific, verifiable outputs that demonstrate the success of 
 - **Task 6: Proof of Work**  
   Prints the English words that produce the most leading zero bits in their SHA-256 hash. Outputs include:  
   - Total number of words processed  
-  - Maximum number of leading zero bits found (16)  
-  - List of tied top words sorted alphabetically (`guilefulness`, `mismatchment`)  
+  - Maximum number of leading zero bits found: **16**  
+  - Top word(s) with the most leading zero bits:
+
+    | Word         | Leading Zero Bits |
+    |:------------:|:-----------------:|
+    | guilefulness |        16         |
+    | mismatchment |        16         |
+ 
   - Binary conversion and hash integrity verified through unit tests
 
 - **Task 7: Turing Machines**  
   Output consists of before-and-after tape states for binary strings incremented by the simulated Turing Machine. Includes multiple test cases like `111 → 1000` and `100111 → 101000`. Tests confirm correctness of state transitions and carry propagation logic.
 
-- **Task 8: Computational Complexity**  
+**Task 8: Computational Complexity**  
   Two sets of outputs:  
   - Standard bubble sort prints input permutation, number of comparisons (always 10), and final sorted list  
   - Optimised version shows reduced comparisons (e.g., 4 for already sorted input)  
   - First 10 and last 10 permutations printed for both implementations to illustrate comparison cost across the full permutation space
 
+  | Comparison Metrics | Standard Bubble Sort | Optimized Bubble Sort |
+  |:-------------------|:--------------------:|:---------------------:|
+  | Minimum comparisons | 10 | 4 |
+  | Maximum comparisons | 10 | 10 |
+  | Average comparisons | 10.00 | 9.26 |
+
+  | Timing Performance | Standard Bubble Sort | Optimized Bubble Sort | Improvement |
+  |:-------------------|:--------------------:|:---------------------:|:----------:|
+  | All 120 permutations | 0.000199s | 0.000180s | 9.45% |
+  | Already sorted | 0.000004s | 0.000001s | 61.11% |
+  | Reversed | 0.000003s | 0.000003s | 10.00% |
+  | 10 random samples | 0.000019s | 0.000016s | 16.06% |
+
+  Both comparison counts and timing measurements confirm that the optimization provides significant benefits for sorted inputs while offering modest improvements for average cases.
 
 ---
 
