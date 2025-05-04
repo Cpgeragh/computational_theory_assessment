@@ -344,12 +344,23 @@ Each task produces specific, verifiable outputs that demonstrate the success of 
 **Task 4: Prime Numbers**  
   Outputs the first 100 primes using both Trial Division and Sieve of Atkin algorithms with performance comparison. Tests confirm correct primality detection and elimination of composite values like 49 or 9.
 
-  | Algorithm       | Execution Time (seconds) | Performance                  |
-  |:----------------|:------------------------:|:-----------------------------|
-  | Trial Division  | 0.000205                 | Faster for small inputs      |
-  | Sieve of Atkin  | 0.000255                 | 1.24x slower for 100 primes  |
+  **Algorithmic Analysis:**
+  - **Trial Division**: 
+    - **Theoretical complexity**: O(n √n) time, O(k) space 
+    - **Measured performance**: 0.000205 seconds
+    - **Advantage**: Simple implementation with lower overhead for small inputs
+  
+  - **Sieve of Atkin**: 
+    - **Theoretical complexity**: O(n log log n) time, O(n) space
+    - **Measured performance**: 0.000255 seconds
+    - **Advantage**: Superior asymptotic scaling for large datasets
 
-  Both algorithms produce identical outputs, validating their correctness while demonstrating that algorithmic complexity doesn't always predict performance for small datasets.
+  | Algorithm       | Execution Time (seconds) | Relative Performance        | Best Use Case                |
+  |:----------------|:------------------------:|:----------------------------|:-----------------------------|
+  | Trial Division  | 0.000205                 | 1.24x faster for 100 primes | Small prime sets, education  |
+  | Sieve of Atkin  | 0.000255                 | Better asymptotic scaling   | Large-scale prime generation |
+
+  This comparison illustrates an important principle in computational theory: asymptotic complexity doesn't always predict real-world performance for small inputs, where implementation overhead and constant factors can dominate. The theoretically superior Sieve of Atkin algorithm would eventually outperform Trial Division as the input size grows, but for calculating just 100 primes, the simpler algorithm proves more efficient.
 
 - **Task 5: Roots**  
   Produces a list of 32-bit binary representations of the fractional part of square roots for the first 100 primes. Outputs include:  
