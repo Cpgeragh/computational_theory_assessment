@@ -4,12 +4,12 @@ This document presents the completed work for the Computational Theory module (J
 
 ---
 
----
-
 ## Table of Contents
 
 1. [Project Overview](#project-overview)  
-2. [Task History](#task-history)  
+2. [Features](#features)  
+3. [Environment & Installation](#environment--installation)  
+4. [Task History](#task-history)  
    - [Task 1: Binary Representations](#task-1-binary-representations)  
    - [Task 2: Hash Functions](#task-2-hash-functions)  
    - [Task 3: SHA256](#task-3-sha256)  
@@ -18,9 +18,7 @@ This document presents the completed work for the Computational Theory module (J
    - [Task 6: Proof of Work](#task-6-proof-of-work)  
    - [Task 7: Turing Machines](#task-7-turing-machines)  
    - [Task 8: Computational Complexity](#task-8-computational-complexity)  
-3. [Features](#features)  
-4. [Execution Instructions](#execution-instructions)  
-5. [Expected Outputs](#expected-outputs)  
+5. [Outputs](#outputs)  
 6. [Development Reflection](#development-reflection)  
 7. [Testing Strategy](#testing-strategy)
 
@@ -84,6 +82,40 @@ This project emphasizes academic consistency and technical presentation through:
 - **Academic tone**: All content avoids casual language, maintains consistent terminology, and frames each task as a study in computational theory.
 
 Together, these ensure that the notebook serves not just as a working submission, but also as a clear, inspectable, and technically mature project.
+
+---
+
+## Environment & Installation
+
+This project requires **Python 3.10+** and uses the following packages:
+
+  - `pytest` – for unit testing
+  - `nbval` – to validate Jupyter Notebook outputs
+
+To install the required packages:
+
+  - pip install -r requirements.txt
+
+Or manually:
+
+  - pip install pytest nbval
+
+
+### Running the Notebook
+
+To execute the project correctly:
+
+  1. Open `tasks.ipynb` in Jupyter Notebook or VS Code.
+  2. Run **all cells in order** from top to bottom using "Run All".
+  3. Ensure all output and test results are displayed without errors.
+
+### Verifying with Automated Testing
+
+To validate that all outputs match the expected results:
+
+  - pytest --nbval-lax tasks.ipynb
+
+This ensures all cells execute correctly and that all test logic passes. Minor differences in runtime output (e.g., timing or file paths) are tolerated under `--nbval-lax`, making it ideal for reproducibility checks without being blocked by non-deterministic output.
 
 ---
 
@@ -187,18 +219,6 @@ This task performs a complexity analysis of bubble sort by applying it to all pe
 - The optimized version terminates early if no swaps are performed in a pass.
 
 For each permutation, the number of comparisons required to sort the list is recorded. This task demonstrates worst-case and best-case behavior and visualizes the sensitivity of bubble sort to input ordering.
-
----
-
-## Execution Instructions
-
-To run the project:
-
-1. Open the `tasks.ipynb` file in a Jupyter environment.
-2. Execute the notebook cell by cell from start to finish.
-3. Review the inline Markdown explanations and output verification steps.
-
-All outputs and test results are generated within the notebook. No external setup is required beyond standard Python libraries.
 
 ---
 
